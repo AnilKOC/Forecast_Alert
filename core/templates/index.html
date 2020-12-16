@@ -1,0 +1,91 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      </div>
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Stocks</h3>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <!-- Projects table -->
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Close</th>
+                    <th scope="col">24 H</th>
+                    <th scope="col">48 H</th>
+                    <th scope="col">72 H</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if Stocks %}
+                {% for Stock in Stocks %}
+                  <tr>
+                    <th scope="row">
+                      <a href="/dashboard/{{ Stock.id }}/">{{ Stock.stock_text }}</a>
+                    </th>
+                    <td>
+                      {{ Stock.value }}
+
+                    </td>
+                    <td>
+                      {% if Stock.f_day > Stock.value%}
+                      <i class="fas fa-arrow-up text-success mr-3"></i>
+                      {% else %}
+                      <i class="fas fa-arrow-down text-warning mr-3"></i>
+                      {% endif %}
+                      {{ Stock.f_day }}
+                    </td>
+                                        <td>
+                                          {% if Stock.s_day > Stock.f_day%}
+                      <i class="fas fa-arrow-up text-success mr-3"></i>
+                      {% else %}
+                      <i class="fas fa-arrow-down text-warning mr-3"></i>
+                      {% endif %} {{ Stock.s_day }}
+                    </td>
+                                        <td>{% if Stock.t_day > Stock.s_day%}
+                      <i class="fas fa-arrow-up text-success mr-3"></i>
+                      {% else %}
+                      <i class="fas fa-arrow-down text-warning mr-3"></i>
+                      {% endif %} {{ Stock.t_day }}
+                    </td>
+                  </tr>
+                {% endfor %}
+                {% else %}
+    <p>No Stocks are available.</p>
+                {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

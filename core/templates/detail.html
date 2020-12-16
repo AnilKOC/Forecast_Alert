@@ -1,0 +1,10 @@
+{% if stock_list %}
+    <ul>
+    {% for row in stock_list %}
+        <li>{{ row.price_date }}</li>
+        <li>{{ row.price_close }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No prices are available.</p>
+{% endif %}

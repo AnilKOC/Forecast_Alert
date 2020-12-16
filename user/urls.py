@@ -1,0 +1,12 @@
+# -*- encoding: utf-8 -*-
+"""
+License: MIT
+Copyright (c) 2019 - present AppSeed.us
+"""
+
+from django.urls import path
+from .views import homepage
+
+urlpatterns = [
+    path('',homepage,name='homepage'),
+]

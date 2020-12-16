@@ -1,0 +1,87 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      </div>
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Stocks</h3>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <!-- Projects table -->
+                <form name=form1 method=post>
+                    {% csrf_token %}
+              <table  class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Close</th>
+					  <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if Stocks %}
+                {% for Stock in Stocks %}
+                  <tr>
+                    <th scope="row">
+                      {{ Stock.stock_text }}
+                    </th>
+                    <td>
+                      {{ Stock.value }}
+                    </td>
+					  <td><input type=checkbox name=ckb value={{Stock.id}} onclick='chkcontrol({{Stock.id}}-48)';></td>
+                  </tr>
+                {% endfor %}
+                {% else %}
+                <p>No Stocks are available.</p>
+                {% endif %}
+                </tbody>
+              </table>
+                <input type="submit"> </form>
+            </div>
+          </div>
+        </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+    <script type="text/javascript">
+function chkcontrol(j) {
+var total=0;
+for(var i=0; i < document.form1.ckb.length; i++){
+if(document.form1.ckb[i].checked){
+total =total +1;}
+if(total > 2){
+alert("Please Select only three")
+document.form1.ckb[j].checked = false ;
+return false;
+}
+}
+} </script>
+
+{% endblock javascripts %}
