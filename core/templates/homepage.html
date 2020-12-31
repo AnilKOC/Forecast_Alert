@@ -1,42 +1,25 @@
-<html lang="en">
+{% extends 'layouts/base-fullscreen.html' %}
 
-<!-- Static assets - Used to load the Favicon -->
-{% load static %}
+{% block title %} Login {% endblock title %}
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
 
-  <title>
-    Stock Forecast - Home Page
-  </title>
+{% block content %}
 
-  <!-- Favicon - loaded as static -->
-  <link href="{% static 'assets/img/brand/favicon.png' %}" rel="icon" type="image/png">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-  <!-- Icons -->
-  <link href="/static/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
-  <link href="/static/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link href="/static/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
-
-  <!-- Specific CSS goes HERE -->
-  {% block stylesheets %}{% endblock stylesheets %}
-
-</head>
-
-
+    <!-- Page content -->
+    <div class="container mt--9">
+      <div class="card bg-secondary shadow border-0">
+            <div class="card-body">
 <div class="jumbotron text-center">
-  <h1>Stock Forecast Alert</h1>
+<h1>Stock Forecast Alert</h1>
 </div>
-
 <div class="container">
   <div class="row">
     <div class="col-sm-3">
       <h3>Silver</h3>
         <p><ul>
+      <li>AI Based</li>
   <li>1 Forecasts</li>
   <li>%80 Succes Rate</li>
     </ul></p>
@@ -45,6 +28,7 @@
     <div class="col-sm-3">
       <h3>Gold</h3>
         <p><ul>
+      <li>AI Based</li>
   <li>10 Forecasts</li>
   <li>Mail Alert</li>
   <li>%80 Succes Rate</li>
@@ -54,6 +38,7 @@
     <div class="col-sm-3">
       <h3>Platinium</h3>
         <p><ul>
+      <li>AI Based</li>
   <li>50 Forecasts</li>
   <li>Mail Alert</li>
   <li>SMS Alert</li>
@@ -64,6 +49,7 @@
           <div class="col-sm-3">
       <h3>Diamond</h3>
               <p><ul>
+            <li>AI Based</li>
   <li>Unlimited Forecasts</li>
   <li>Mail Alert</li>
   <li>SMS Alert</li>
@@ -72,6 +58,9 @@
       <a href="{% url 'register' %}4/">Buy</a>
     </div>
   </div>
-</div>
+</div></div></div></div>
 
-</html>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}

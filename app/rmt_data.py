@@ -4,9 +4,9 @@ import math
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential, load_model
+from keras.models import Sequential
 from keras.layers import Dense,LSTM
-
+from .models import Stocks_List,Stock_Prices
 
 def prediction(data):
     dataset = pd.DataFrame(data)
@@ -77,12 +77,13 @@ def prediction(data):
     t_day = scaler.inverse_transform(predictions3)
 
     valid['72 Hour'] = t_day
-    cursor = connection.cursor()
-    sql = "UPDATE app_stocks_list SET f_day=%s, s_day=%s, t_day=%s WHERE id=%s"
-    val= (round(float(f_day),0),round(float(s_day),2),round(float(t_day),2),50)
-    cursor.execute(sql,val)
-    return valid
 
+    Stock=Stocks_List.objects.last()
+    Stock.f_day=round(float(f_day))
+    Stock.s_day=round(float(s_day))
+    Stock.t_day=round(float(t_day))
+    Stock.save()
+    return valid
 
 def data(ticker):
     ts = TimeSeries(key='0UZLUTAJ77KHRW60', output_format='pandas')
@@ -91,14 +92,8 @@ def data(ticker):
     prediction(data['4. close'])
 
 def data_insert(ticker,data,index):
-    cursor = connection.cursor()
-    sql="INSERT INTO app_stocks_list (stock_text,f_day,s_day,t_day,value) VALUES(%s,%s,%s,%s,%s)"
-    val=(ticker,0,0,0,data[0])
-    cursor.execute(sql, val)
-    a=cursor.execute("Select id from app_stocks_list where stock_text = '"+ticker+"'")
-    print(a)#+25 sonra silinicek veri tabanı id lemesi yüzünden yazıldı.
-    sql="INSERT INTO app_stock_prices (price_date,price_close,f_day,s_day,t_day,stocks_id) VALUES(%s,%s,%s,%s,%s,%s)"
+    New_Stock=Stocks_List(stock_text=ticker,f_day=0,s_day=0,t_day=0,value=data[0])
+    New_Stock.save()
     for i in range(len(data)):
-        val=(index[i],data[i],50,50,50,50)
-        cursor.execute(sql, val)
-
+        New_Stock_Prices=Stock_Prices(price_date=index[i],price_close=data[i],f_day=0,s_day=0,t_day=0,stocks_id=New_Stock.id)
+        New_Stock_Prices.save()

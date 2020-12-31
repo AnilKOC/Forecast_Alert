@@ -23,18 +23,18 @@
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
+              {% if Stocks %}
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Stock</th>
                     <th scope="col">Close</th>
-                    <th scope="col">24 H</th>
-                    <th scope="col">48 H</th>
-                    <th scope="col">72 H</th>
+                    <th scope="col">After 24 H</th>
+                    <th scope="col">After 48 H</th>
+                    <th scope="col">After 72 H</th>
                   </tr>
                 </thead>
                 <tbody>
-                {% if Stocks %}
                 {% for Stock in Stocks %}
                   <tr>
                     <th scope="row">

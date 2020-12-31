@@ -7,4 +7,6 @@ urlpatterns = [
     path('dashboard/mystocks/', views.my_stocks, name='mystocks'),
     path('dashboard/input/', views.input, name='input'),
     path('dashboard/<int:stocks_stocks_list_id>/', views.detail, name='detail'),
+    path('dashboard/ai/',views.ai_methodology),
+    path('',views.homepage,name='homepage'),
 ]

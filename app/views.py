@@ -8,11 +8,18 @@ from django.contrib.auth.decorators import user_passes_test
 
 from .rmt_data import data
 
+def homepage(request):
+    return render(request,'homepage.html')
+
 @login_required(login_url="/login/")
 def index(request):
     Stocks = Stocks_List.objects.all()
     context = {'Stocks': Stocks}
     return render(request, 'index.html', context)
+
+@login_required(login_url="/login/")
+def ai_methodology(request):
+    return render(request,'ai-methodology.html')
 
 @login_required(login_url="/login/")
 def my_stocks(request):
