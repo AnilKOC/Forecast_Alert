@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
 from django import template
@@ -7,6 +7,8 @@ from .models import Stocks_List,Stock_Prices
 from django.contrib.auth.decorators import user_passes_test
 
 from .rmt_data import data
+from .forms import Contact_form
+from .models import Contact
 
 def homepage(request):
     return render(request,'homepage.html')
@@ -20,6 +22,21 @@ def index(request):
 @login_required(login_url="/login/")
 def ai_methodology(request):
     return render(request,'ai-methodology.html')
+
+@login_required(login_url="/login/")
+def contact(request):
+    if request.method == 'POST':
+        form = Contact_form(request.POST)
+        if form.is_valid():
+            print(form)
+            cont=Contact(name=form.cleaned_data['name'],mail=form.cleaned_data['mail'],content=form.cleaned_data['message'])
+            cont.save()
+            return render(request, 'contact.html', {'form': form})
+
+    else:
+        form = Contact_form()
+
+    return render(request, 'contact.html', {'form': form})
 
 @login_required(login_url="/login/")
 def my_stocks(request):

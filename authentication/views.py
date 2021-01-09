@@ -3,6 +3,7 @@ from django.db import connection
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, SignUpForm
+from django.contrib.auth.models import Group
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -26,12 +27,8 @@ def register_user2(request):
     success = False
     if request.method == "POST":
         form = SignUpForm(request.POST)
-        print(form.username)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
             msg     = 'User created.'
             success = True
         else:
@@ -55,14 +52,9 @@ def register_user(request,division):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user_id=form.save().id
-            cursor = connection.cursor()
-            sql = "INSERT INTO auth_user_groups SET user_id=%s, group_id=%s"
-            val = int(user_id),int(division)
-            cursor.execute(sql, val)
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
+            id=form.save().id
+            A = Group(user_id=id,group_id=int(division))
+            A.save()
             msg = 'User created.'
             success = True
         else:

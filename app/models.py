@@ -20,3 +20,9 @@ class Stock_Prices(models.Model):
         name=str(self.stocks)+str(self.price_date)
         return name
 
+class Contact(models.Model):
+    name = models.CharField(max_length=200)
+    mail = models.EmailField()
+    content = models.CharField(max_length=5000)
+    def __str__(self):
+        return self.name

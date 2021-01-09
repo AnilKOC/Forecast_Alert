@@ -29,21 +29,16 @@
 
 </head>
 
-<body class="">
-
-  {% include "includes/sidenav.html" %}
-
+<body>
   <div class="main-content">
 
     {% include "includes/navigation.html" %}
-
     {% block content %}{% endblock content %}
 
   </div>
 
   {% include "includes/scripts.html" %}
 
-  <!-- Specific JS goes HERE --> 
   {% block javascripts %}{% endblock javascripts %}
 
 </body>
