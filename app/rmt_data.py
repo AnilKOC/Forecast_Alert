@@ -92,7 +92,7 @@ def data(ticker):
     prediction(data['4. close'])
 
 def data_insert(ticker,data,index):
-    New_Stock=Stocks_List(stock_text=ticker,f_day=0,s_day=0,t_day=0,value=data[0])
+    New_Stock=Stocks_List(stock_text=ticker,f_day=0,s_day=0,t_day=0,value=data[0],financetype_id='1')
     New_Stock.save()
     for i in range(len(data)):
         New_Stock_Prices=Stock_Prices(price_date=index[i],price_close=data[i],f_day=0,s_day=0,t_day=0,stocks_id=New_Stock.id)

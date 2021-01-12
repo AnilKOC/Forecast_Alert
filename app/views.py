@@ -3,9 +3,9 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
 from django import template
-from .models import Stocks_List,Stock_Prices
 from django.contrib.auth.decorators import user_passes_test
 
+from .models import Stocks_List,Stock_Prices, Stock_Type
 from .rmt_data import data
 from .forms import Contact_form
 from .models import Contact
@@ -16,7 +16,12 @@ def homepage(request):
 @login_required(login_url="/login/")
 def index(request):
     Stocks = Stocks_List.objects.all()
-    context = {'Stocks': Stocks}
+    Type = Stock_Type.objects.all()
+    for i in Stocks:
+        print(i)
+    context = {'Stocks': Stocks,
+               'Type':Type,
+               }
     return render(request, 'index.html', context)
 
 @login_required(login_url="/login/")
@@ -32,10 +37,8 @@ def contact(request):
             cont=Contact(name=form.cleaned_data['name'],mail=form.cleaned_data['mail'],content=form.cleaned_data['message'])
             cont.save()
             return render(request, 'contact.html', {'form': form})
-
     else:
         form = Contact_form()
-
     return render(request, 'contact.html', {'form': form})
 
 @login_required(login_url="/login/")
@@ -58,7 +61,6 @@ def input(request):
 def detail(request, stocks_stocks_list_id):
     stock_list = Stock_Prices.objects.filter(stocks_id=stocks_stocks_list_id)
     return render(request, 'detail.html', {'stock_list': stock_list})
-
 
 @login_required(login_url="/login/")
 def pages(request):

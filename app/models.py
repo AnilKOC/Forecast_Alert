@@ -1,6 +1,12 @@
 from django.db import models
 
+class Stock_Type(models.Model):
+    label = models.CharField(max_length=200)
+    def __str__(self):
+        return self.label
+
 class Stocks_List(models.Model):
+    financetype=models.ForeignKey(Stock_Type,on_delete=models.CASCADE)
     stock_text = models.CharField(max_length=200)
     f_day = models.FloatField()
     s_day = models.FloatField()
@@ -19,6 +25,8 @@ class Stock_Prices(models.Model):
     def __str__(self):
         name=str(self.stocks)+str(self.price_date)
         return name
+
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=200)
