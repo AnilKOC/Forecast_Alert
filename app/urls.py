@@ -3,7 +3,7 @@ from app import views
 
 urlpatterns = [
     re_path(r'^.*\.html', views.pages, name='pages'),
-    path('dashboard/', views.index, name='home'),
+    path('pricing/', views.homepage, name='homepage'),
     path('dashboard/contact/', views.contact, name='contact'),
     path('dashboard/mystocks/', views.my_stocks, name='mystocks'),
     path('dashboard/input/', views.input, name='input'),

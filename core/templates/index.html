@@ -2,7 +2,6 @@
 
 {% block title %} Dashboard {% endblock title %}
 
-<!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
@@ -10,9 +9,20 @@
     <!-- Header -->
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
       </div>
-    <div class="container-fluid mt--7">
-      {% for i in Type %}
-      <div class="row">
+    <div class="container-fluid ">
+        <div class="card shadow">
+<ul class="nav nav-pills mb-3 mt--9" id="pills-tab" role="tablist">
+  {% for i in Type %}
+  <li class="nav-item">
+    <a class="nav-link" id="pills-{{i.label}}-tab" data-toggle="pill" href="#pills-{{i.label}}" role="tab" aria-controls="pills-{{i.label}}" aria-selected="false">{{i.label}}</a>
+  </li>
+  {% endfor %}
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  {% for i in Type %}
+  <div class="tab-pane fade" id="pills-{{i.label}}" role="tabpanel" aria-labelledby="pills-{{i.label}}-tab">
+
+          <div class="row">
         <div class="col-xl-8 mb-5 mb-xl-0">
           <div class="card shadow">
             <div class="card-header border-0">
@@ -28,14 +38,20 @@
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Close</th>
-                    <th scope="col">After 24 H</th>
-                    <th scope="col">After 48 H</th>
-                    <th scope="col">After 72 H</th>
+                    <th scope="col" data-column="stock" data-order="desc">Stock</th>
+                    <th scope="col" data-column="close" data-order="desc">Close</th>
+                    <th scope="col" data-column="f_day" data-order="desc">After 24 H</th>
+                    <th scope="col" data-column="s_day" data-order="desc">After 48 H</th>
+                    <th scope="col" data-column="t_Day" data-order="desc">After 72 H</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
+
+
+
+
+
+
                 {% for Stock in Stocks %}
                 {% if i.id == Stock.financetype_id %}
                   <tr>
@@ -54,7 +70,7 @@
                       {% endif %}
                       {{ Stock.f_day }}
                     </td>
-                                        <td>
+                    <td>
                                           {% if Stock.s_day > Stock.f_day%}
                       <i class="fas fa-arrow-up text-success mr-3"></i>
                       {% else %}
@@ -70,6 +86,11 @@
                   </tr>
                 {% endif %}
                 {% endfor %}
+
+
+
+
+
                 {% else %}
     <p>No Stocks are available.</p>
                 {% endif %}
@@ -78,11 +99,11 @@
             </div>
           </div>
         </div>
-
             </div>
-      <br>
-      <br>
-      {% endfor %}
+
+  </div>
+  {% endfor %}
+            </div>
           </div>
         </div>
       </div>
@@ -93,5 +114,8 @@
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+
+{% block javascripts %}
+
+
+{% endblock javascripts %}

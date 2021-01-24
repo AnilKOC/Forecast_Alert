@@ -79,21 +79,20 @@ def prediction(data):
     valid['72 Hour'] = t_day
 
     Stock=Stocks_List.objects.last()
+    Stock.value=data[0]
     Stock.f_day=round(float(f_day))
     Stock.s_day=round(float(s_day))
     Stock.t_day=round(float(t_day))
     Stock.save()
     return valid
 
-def data(ticker):
+def data(ticker,fin_id,id):
     ts = TimeSeries(key='0UZLUTAJ77KHRW60', output_format='pandas')
     data, meta_data = ts.get_daily(symbol=ticker)
-    data_insert(ticker,data['4. close'],list(data.index.values))
+    data_insert(ticker,data['4. close'],list(data.index.values),fin_id,id)
     prediction(data['4. close'])
 
-def data_insert(ticker,data,index):
-    New_Stock=Stocks_List(stock_text=ticker,f_day=0,s_day=0,t_day=0,value=data[0],financetype_id='1')
-    New_Stock.save()
+def data_insert(ticker,data,index,fin_id,id):
     for i in range(len(data)):
-        New_Stock_Prices=Stock_Prices(price_date=index[i],price_close=data[i],f_day=0,s_day=0,t_day=0,stocks_id=New_Stock.id)
+        New_Stock_Prices=Stock_Prices(price_date=index[i],price_close=data[i],f_day=0,s_day=0,t_day=0,stocks_id=id)
         New_Stock_Prices.save()

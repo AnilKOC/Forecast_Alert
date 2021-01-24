@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django import template
 from django.contrib.auth.decorators import user_passes_test
 
+from django.core import serializers
+
 from .models import Stocks_List,Stock_Prices, Stock_Type
 from .rmt_data import data
 from .forms import Contact_form
@@ -16,9 +18,9 @@ def homepage(request):
 @login_required(login_url="/login/")
 def index(request):
     Stocks = Stocks_List.objects.all()
+    #Stocks = serializers.serialize('json', Stocks)
     Type = Stock_Type.objects.all()
-    for i in Stocks:
-        print(i)
+    #Type = serializers.serialize('json', Type)
     context = {'Stocks': Stocks,
                'Type':Type,
                }
@@ -46,7 +48,7 @@ def my_stocks(request):
     Stocks = Stocks_List.objects.all()
     context = {'Stocks': Stocks}
     if request.method == 'POST':
-        print(request.POST)
+        print(request.POST) #askıya kaldırıldı şimdilik.
     return render(request, 'stock.html', context)
 
 @user_passes_test(lambda u: u.is_superuser)

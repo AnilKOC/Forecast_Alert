@@ -8,20 +8,20 @@ class Stock_Type(models.Model):
 class Stocks_List(models.Model):
     financetype=models.ForeignKey(Stock_Type,on_delete=models.CASCADE)
     stock_text = models.CharField(max_length=200)
-    f_day = models.FloatField()
-    s_day = models.FloatField()
-    t_day = models.FloatField()
-    value = models.FloatField()
+    f_day = models.FloatField(null=True, blank=True)
+    s_day = models.FloatField(null=True, blank=True)
+    t_day = models.FloatField(null=True, blank=True)
+    value = models.FloatField(null=True, blank=True)
     def __str__(self):
         return self.stock_text
 
 class Stock_Prices(models.Model):
     stocks=models.ForeignKey(Stocks_List, on_delete=models.CASCADE)
     price_date = models.CharField(max_length=200)
-    price_close =models.FloatField()
-    f_day = models.FloatField()
-    s_day = models.FloatField()
-    t_day = models.FloatField()
+    price_close =models.FloatField(null=True, blank=True)
+    f_day = models.FloatField(null=True, blank=True)
+    s_day = models.FloatField(null=True, blank=True)
+    t_day = models.FloatField(null=True, blank=True)
     def __str__(self):
         name=str(self.stocks)+str(self.price_date)
         return name
