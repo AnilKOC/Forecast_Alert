@@ -8,83 +8,65 @@ from keras.models import Sequential
 from keras.layers import Dense,LSTM
 from .models import Stocks_List,Stock_Prices
 
+from tensorflow import keras
+
 def prediction(data):
+    final_model = keras.models.load_model('final_model')
+
+    data = data.iloc[::-1]
+
     dataset = pd.DataFrame(data)
-    training_data_len = math.ceil(len(dataset) * 0.95)
+
+    training_data_len = math.ceil(len(dataset) * 0.8)
 
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaled_data = scaler.fit_transform(dataset)
 
-    train_data = scaled_data[0:training_data_len, :]
-
-    x_train = []
-    y_train = []
-
-    for i in range(60, len(train_data)):
-        x_train.append(train_data[i - 60:i, 0])
-        y_train.append(train_data[i, 0])
-        if i <= 60:
-            print(x_train)
-            print()
-            print(y_train)
-
-    x_train, y_train = np.array(x_train), np.array(y_train)
-
-    x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
-
-    model = Sequential()
-
-    model.add(LSTM(50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
-    model.add(LSTM(50, return_sequences=False))
-    model.add(Dense(25))
-    model.add(Dense(1))
-
-    model.compile(optimizer='adam', loss='mean_squared_error')
-
-    model.fit(x_train, y_train, batch_size=10, epochs=1)
-    test_data = scaled_data[training_data_len - 60:, :]
-
-    valid = dataset[training_data_len:training_data_len + 1]
+    test_data = scaled_data[training_data_len - 14:, :]
 
     x_test = []
-    x_test.append(test_data[0:60, 0])
+
+    x_test.append(test_data[-14:, 0])
+
     x_test = np.array(x_test)
+
     x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-    predictions = model.predict(x_test)
+
+    predictions = final_model.predict(x_test)
     f_day = scaler.inverse_transform(predictions)
 
-    valid['24 Hour'] = f_day
+    test_data = np.append(test_data, predictions[0])
 
     x_test = []
-    x_test.append(test_data[1:60, 0])
-    x_test[0] = x_test[0].tolist()
-    x_test[0].append(predictions[0][0])
-    x_test = np.array(x_test)
-    x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-    predictions2 = model.predict(x_test)
-    s_day = scaler.inverse_transform(predictions2)
+    x_test.append(test_data[-14:])
 
-    valid['48 Hour'] = s_day
+    x_test = np.array(x_test)
+
+    x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
+    print(x_test)
+    predictions = final_model.predict(x_test)
+    s_day = scaler.inverse_transform(predictions)
+
+    test_data = np.append(test_data, predictions[0])
 
     x_test = []
-    x_test.append(test_data[2:60, 0])
-    x_test[0] = x_test[0].tolist()
-    x_test[0].append(predictions[0][0])
-    x_test[0].append(predictions2[0][0])
-    x_test = np.array(x_test)
-    x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-    predictions3 = model.predict(x_test)
-    t_day = scaler.inverse_transform(predictions3)
+    x_test.append(test_data[-14:])
 
-    valid['72 Hour'] = t_day
+    x_test = np.array(x_test)
+
+    x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
+    print(x_test)
+    predictions = final_model.predict(x_test)
+    t_day = scaler.inverse_transform(predictions)
+
+    print(f_day[0][0], s_day[0][0], t_day[0][0])
 
     Stock=Stocks_List.objects.last()
-    Stock.value=data[0]
-    Stock.f_day=round(float(f_day))
-    Stock.s_day=round(float(s_day))
-    Stock.t_day=round(float(t_day))
+    Stock.value=data[-1]
+    Stock.f_day=format(f_day[0][0],'.2f')
+    Stock.s_day=format(s_day[0][0],'.2f')
+    Stock.t_day=format(t_day[0][0],'.2f')
     Stock.save()
-    return valid
 
 def data(ticker,fin_id,id):
     ts = TimeSeries(key='0UZLUTAJ77KHRW60', output_format='pandas')

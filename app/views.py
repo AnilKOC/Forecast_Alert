@@ -11,6 +11,7 @@ from .models import Stocks_List,Stock_Prices, Stock_Type
 from .rmt_data import data
 from .forms import Contact_form
 from .models import Contact
+from .crontab import update
 
 def homepage(request):
     return render(request,'homepage.html')
@@ -51,17 +52,16 @@ def my_stocks(request):
         print(request.POST) #askıya kaldırıldı şimdilik.
     return render(request, 'stock.html', context)
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser) #crontab
 def input(request):
     if request.method == 'POST':
-        context = request.POST
-        data(context['ticker'])
+        update()
         return render(request,'input.html')
     return render(request,'input.html')
 
 @login_required(login_url="/login/")
 def detail(request, stocks_stocks_list_id):
-    stock_list = Stock_Prices.objects.filter(stocks_id=stocks_stocks_list_id)
+    stock_list = Stock_Prices.objects.filter(stocks_id=stocks_stocks_list_id).order_by('-price_date')
     return render(request, 'detail.html', {'stock_list': stock_list})
 
 @login_required(login_url="/login/")
