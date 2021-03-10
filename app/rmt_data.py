@@ -70,7 +70,7 @@ def prediction(data):
 
 def data(ticker,fin_id,id):
     ts = TimeSeries(key='0UZLUTAJ77KHRW60', output_format='pandas')
-    data, meta_data = ts.get_daily(symbol=ticker)
+    data, meta_data = ts.get_intraday(symbol=ticker,interval='60min', outputsize='full')
     data_insert(ticker,data['4. close'],list(data.index.values),fin_id,id)
     prediction(data['4. close'])
 

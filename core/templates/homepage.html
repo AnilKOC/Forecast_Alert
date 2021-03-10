@@ -1,13 +1,15 @@
-{% extends 'layouts/base-fullscreen.html' %}
+{% extends 'layouts/base.html' %}
 
-{% block title %} Login {% endblock title %}
+{% block title %} Dashboard {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
-    <!-- Page content -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      </div>
+    <div class="container-fluid mt--7">
     <div class="container mt--9">
       <div class="card bg-secondary shadow border-0">
             <div class="card-body">
@@ -59,6 +61,13 @@
     </div>
   </div>
 </div></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
 
 {% endblock content %}
 

@@ -56,7 +56,7 @@
                 {% if i.id == Stock.financetype_id %}
                   <tr>
                     <th scope="row">
-                      <a href="/dashboard/{{ Stock.id }}/">{{ Stock.stock_text }}</a>
+                      <a href="/{{ Stock.id }}/">{{ Stock.stock_text }}</a>
                     </th>
                     <td>
                       {{ Stock.value }}

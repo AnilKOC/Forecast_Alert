@@ -12,7 +12,10 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=False)
 
 # load production server from .env
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
+ALLOWED_HOSTS = ['167.99.87.83','forecastalert.tezgel.com','localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
+
+# For The test
+#ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
 
 # Application definition
 
@@ -66,6 +69,20 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'forecast_alert',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'USER': 'user',
+        'PASSWORD': '159357123789',
+    }
+}
+
+# For the test
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -76,7 +93,7 @@ DATABASES = {
         'PASSWORD': '159357',
     }
 }
-
+'''
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
