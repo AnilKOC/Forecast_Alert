@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from django.core import serializers
 
-from .models import Stocks_List,Stock_Prices, Stock_Type
+from .models import Asset_List,Asset_Prices, Asset_Type
 from .rmt_data import data
 from .forms import Contact_form
 from .models import Contact
@@ -18,9 +18,9 @@ def homepage(request):
 
 @login_required(login_url="/login/")
 def index(request):
-    Stocks = Stocks_List.objects.all()
+    Stocks =Asset_List.objects.all()
     #Stocks = serializers.serialize('json', Stocks)
-    Type = Stock_Type.objects.all()
+    Type = Asset_Type.objects.all()
     #Type = serializers.serialize('json', Type)
     context = {'Stocks': Stocks,
                'Type':Type,
@@ -46,7 +46,7 @@ def contact(request):
 
 @login_required(login_url="/login/")
 def my_stocks(request):
-    Stocks = Stocks_List.objects.all()
+    Stocks = Asset_List.objects.all()
     context = {'Stocks': Stocks}
     if request.method == 'POST':
         print(request.POST) #askıya kaldırıldı şimdilik.
@@ -61,7 +61,7 @@ def input(request):
 
 @login_required(login_url="/login/")
 def detail(request, stocks_stocks_list_id):
-    stock_list = Stock_Prices.objects.filter(stocks_id=stocks_stocks_list_id).order_by('-price_date')
+    stock_list = Asset_Prices.objects.filter(asset_id=stocks_stocks_list_id).order_by('-price_date')
     return render(request, 'detail.html', {'stock_list': stock_list})
 
 @login_required(login_url="/login/")

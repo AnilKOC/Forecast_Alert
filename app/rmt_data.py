@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense,LSTM
-from .models import Stocks_List,Stock_Prices
+from .models import Asset_List,Asset_Prices
 
 from tensorflow import keras
 
@@ -61,12 +61,12 @@ def prediction(data):
 
     print(f_day[0][0], s_day[0][0], t_day[0][0])
 
-    Stock=Stocks_List.objects.last()
-    Stock.value=data[-1]
-    Stock.f_day=format(f_day[0][0],'.2f')
-    Stock.s_day=format(s_day[0][0],'.2f')
-    Stock.t_day=format(t_day[0][0],'.2f')
-    Stock.save()
+    Asset=Asset_List.objects.last()
+    Asset.value=data[-1]
+    Asset.f_day=format(f_day[0][0],'.2f')
+    Asset.s_day=format(s_day[0][0],'.2f')
+    Asset.t_day=format(t_day[0][0],'.2f')
+    Asset.save()
 
 def data(ticker,fin_id,id):
     ts = TimeSeries(key='0UZLUTAJ77KHRW60', output_format='pandas')
@@ -76,5 +76,5 @@ def data(ticker,fin_id,id):
 
 def data_insert(ticker,data,index,fin_id,id):
     for i in range(len(data)):
-        New_Stock_Prices=Stock_Prices(price_date=index[i],price_close=data[i],f_day=0,s_day=0,t_day=0,stocks_id=id)
+        New_Stock_Prices=Asset_Prices(price_date=index[i],price_close=data[i],f_day=0,s_day=0,t_day=0,asset_id=id)
         New_Stock_Prices.save()

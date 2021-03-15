@@ -1,17 +1,17 @@
 from django.contrib import admin
-from .models import Stock_Prices,Stocks_List,Contact,Stock_Type
+from .models import Asset_Prices,Asset_List,Contact,Asset_Type
 
 from .rmt_data import data
 
 admin.site.site_header = "Forecast Alert"
 
-class Stock_ListAdmin(admin.ModelAdmin):
-    fields = ('financetype', 'stock_text')
+class Asset_ListAdmin(admin.ModelAdmin):
+    fields = ('financetype', 'Asset_text','Asset_link')
     def save_model(self, request, obj, form, change):
         obj.save()
-        data(obj.stock_text,obj.financetype_id,obj.id)
+        data(obj.Asset_text,obj.financetype_id,obj.id)
 
-admin.site.register(Stocks_List,Stock_ListAdmin)
-admin.site.register(Stock_Prices)
-admin.site.register(Stock_Type)
+admin.site.register(Asset_List,Asset_ListAdmin)
+admin.site.register(Asset_Prices)
+admin.site.register(Asset_Type)
 admin.site.register(Contact)

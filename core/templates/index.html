@@ -46,21 +46,14 @@
                   </tr>
                 </thead>
                 <tbody id="myTable">
-
-
-
-
-
-
                 {% for Stock in Stocks %}
                 {% if i.id == Stock.financetype_id %}
                   <tr>
                     <th scope="row">
-                      <a href="/{{ Stock.id }}/">{{ Stock.stock_text }}</a>
+                      <a href="/{{ Stock.id }}/">{{ Stock.Asset_text }}</a>
                     </th>
                     <td>
                       {{ Stock.value }}
-
                     </td>
                     <td>
                       {% if Stock.f_day > Stock.value%}
@@ -71,13 +64,14 @@
                       {{ Stock.f_day }}
                     </td>
                     <td>
-                                          {% if Stock.s_day > Stock.f_day%}
+                      {% if Stock.s_day > Stock.f_day%}
                       <i class="fas fa-arrow-up text-success mr-3"></i>
                       {% else %}
                       <i class="fas fa-arrow-down text-warning mr-3"></i>
                       {% endif %} {{ Stock.s_day }}
                     </td>
-                                        <td>{% if Stock.t_day > Stock.s_day%}
+                    <td>
+                      {% if Stock.t_day > Stock.s_day%}
                       <i class="fas fa-arrow-up text-success mr-3"></i>
                       {% else %}
                       <i class="fas fa-arrow-down text-warning mr-3"></i>
@@ -86,11 +80,6 @@
                   </tr>
                 {% endif %}
                 {% endfor %}
-
-
-
-
-
                 {% else %}
     <p>No Stocks are available.</p>
                 {% endif %}
